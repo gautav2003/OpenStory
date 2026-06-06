@@ -202,3 +202,40 @@ main { max-width: 1280px; margin: 0 auto; padding: 24px 32px; }
 .page-header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
 .page-actions { display: flex; gap: 10px; margin-top: 10px; }
 
+/* --Flash Messages-- */
+.flash {
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.flash-success { background: #EAFAF1; color: #27AE60; border-left: 4px solid #27AE60; }
+.flash-error   { background: #FDEDEC; color: #E74C3C; border-left: 4px solid #E74C3C; }
+.flash-info    { background: #EBF5FB; color: #2980B9; border-left: 4px solid #2980B9; }
+
+/*-- Auth Pagees--*/
+.auth-page {
+    min-height: 100vh;
+    background: var(--light-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.auth-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 460px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+.auth-card-inner { padding: 32px; }
+.auth-header { 
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
