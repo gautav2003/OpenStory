@@ -69,3 +69,27 @@ body {
     color: var(--primary);
 }
 
+/* --Buttons -- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding:  10px 20px;
+    border-radius:  8px;
+    border: none;
+    font-size:14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .2s;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: #1a252f; }
+.btn-danger { background: var(--accent); color: #fff; }
+.btn-danger:hover { background: #c0392b; }
+.btn-teal { background: var(--teal); color: #fff; }
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+.btn-outline:hover { background: var(--primary); color: #fff; }
+.btn-sm { padding: 6px 14px; font-size: 13px; }
+.btn-full { width: 100%; justify-content: center; }
+
