@@ -138,3 +138,24 @@ tbody tr:last-child { border-bottom: none; }
 tbody td { padding: 10px 14px; font-size: 13px; vertical-align: middle; }
 tbody tr:hover { background: #fafafa; }
 
+/* --Badges-- */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.badge-borrowed  { background: #EBF5FB; color: var(--badge-blue); }
+.badge-overdue   { background: #FDEDEC; color: var(--badge-red); }
+.badge-returned  { background: #EAFAF1; color: var(--badge-green); }
+.badge-pending   { background: #FEF9E7; color: var(--badge-orange); }
+.badge-in-progress { background: #EBF5FB; color: var(--badge-blue) }
+.badge-completed { background: #EAFAF1; color: var(--badge-green) }
+.badge-book      { background: #EBF5FB; color: var(--badge-blue) }
+.badge-ebook     { background: #F4ECF7; color: #8E44AD; }
+.badge-audiobook { background: #E8F8F5; color: var(--badge-green); }
+.badge-journal   { background: #FEF9E7; color: var(--badge-orange); }
+.badge-online    { background: #EAFAF1; color: var(--badge-green); }
+
