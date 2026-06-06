@@ -187,3 +187,18 @@ tbody tr:hover { background: #fafafa; }
 .checkbox-row { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
 .checkbox-row input { width: 16px; height: 16px; cursor: pointer; }
 
+/* --Search bar-- */
+.search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.search-bar .form-control { flex: 1; }
+
+/* --Page Layout-- */
+main { max-width: 1280px; margin: 0 auto; padding: 24px 32px; }
+.page-header { margin-bottom: 24px; }
+.page-header h1 { font-size: 22px; font-weight: 700; }
+.page-header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+.page-actions { display: flex; gap: 10px; margin-top: 10px; }
+
