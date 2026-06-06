@@ -1,0 +1,29 @@
+/* --Open Story Design System-- */
+:root {
+  --primary:   #2C3E50;
+  --accent:    #E74C3C;
+  --teal:      #1ABC9C;
+  --light-bg:  #F5F6FA;
+  --white:     #FFFFFF;
+  --border:    #E0E0E0;
+  --text:      #2C3E50;
+  --text-muted:#7F8C8D;
+  --badge-blue:#3498DB;
+  --badge-red: #E74C3C;
+  --badge-green:#27AE60;
+  --badge-orange:#F39c12;
+  --shadow:    0 2px 12px rgba(0,0,0,0.08);
+  --radius:    12px;
+  --radius-sm: 8px;
+}  
+
+*,*::before, *::after { box-sizing: border-box; margin: 0; padding:0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
