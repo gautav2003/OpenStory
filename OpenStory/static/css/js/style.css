@@ -53,6 +53,19 @@ body {
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 10px;
-    min-width: 160px;
+    gap: 4px;
+    flex: 1;
 }
+.nav-links a {                    
+    text-decoration: none;
+   color: var(--text-muted);
+   padding: 6px 14px;
+   border-radius: 6px;
+   font-weight: 500;
+   transition: all .2s;
+}
+.nav-links a:hover, .nav-links a.active {
+    background: var(--light-bg);
+    color: var(--primary);
+}
+
