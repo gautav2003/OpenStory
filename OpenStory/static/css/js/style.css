@@ -122,3 +122,19 @@ body {
 .stat-card .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 .stat-card .stat-action { margin-top:10px; }
 
+/* --Tables-- */
+.table { width: 100%; border-collapse: collapse; }
+thead th {
+    background: var(--light-bg);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+}
+tbody tr { border-bottom: 1px solid #f0f0f0;}
+tbody tr:last-child { border-bottom: none; }
+tbody td { padding: 10px 14px; font-size: 13px; vertical-align: middle; }
+tbody tr:hover { background: #fafafa; }
+
