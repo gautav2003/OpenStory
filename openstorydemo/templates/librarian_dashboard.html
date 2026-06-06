@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Librarian Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Dashboard Overview</h1>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <span class="stat-icon">📚</span>
+    <div class="stat-number">{{ stats.total_resources }}</div>
+    <div class="stat-label">Total Resources</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">👥</span>
+    <div class="stat-number">{{ stats.active_members }}</div>
+    <div class="stat-label">Active Members</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">🗄</span>
+    <div class="stat-number">{{ stats.active_borrowings }}</div>
+    <div class="stat-label">Active Borrowings</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">⏰</span>
+    <div class="stat-number">{{ stats.overdue_items }}</div>
+    <div class="stat-label">Overdue Items</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">💬</span>
+    <div class="stat-number">{{ stats.pending_chats }}</div>
+    <div class="stat-label">Pending Chats</div>
+    <div class="stat-action">
+      <a href="{{ url_for('librarian_chat') }}" class="btn btn-outline btn-sm">Respond Now</a>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">👫</span>
+    <div class="stat-number">{{ stats.study_groups }}</div>
+    <div class="stat-label">Study Groups</div>
+    <div class="stat-action">
+      <a href="{{ url_for('groups') }}" class="btn btn-outline btn-sm">Manage Groups</a>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">💵</span>
+    <div class="stat-number">${{ "%.2f"|format(stats.outstanding_fines) }}</div>
+    <div class="stat-label">Outstanding Fines</div>
+    <div class="stat-action">
+      <a href="{{ url_for('librarian_borrowers') }}" class="btn btn-outline btn-sm">View Details</a>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h3 style="font-size:15px;margin-bottom:16px">Recent Borrowing Activity</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Borrower</th>
+        <th>Resource</th>
+        <th>Borrow Date</th>
+        <th>Due Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in recent_borrowings %}
+      <tr>
+        <td>{{ b.username }}</td>
+        <td>{{ b.title }}</td>
+        <td>{{ b.borrow_date }}</td>
+        <td>{{ b.due_date }}</td>
+        <td><span class="badge badge-{{ b.status }}">{{ b.status }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

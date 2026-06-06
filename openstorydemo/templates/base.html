@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Open Story{% endblock %} – Library Website</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% if session.get('user_id') %}
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="nav-logo">📖</div>
+    <div>
+      <strong>Open Story</strong>
+      <small>Library Website</small>
+    </div>
+  </div>
+  <ul class="nav-links">
+    {% if session.get('role') == 'librarian' %}
+      <li><a href="{{ url_for('librarian_dashboard') }}" {% if request.endpoint == 'librarian_dashboard' %}class="active"{% endif %}>Dashboard</a></li>
+      <li><a href="{{ url_for('librarian_catalogue') }}" {% if request.endpoint == 'librarian_catalogue' %}class="active"{% endif %}>Catalogue</a></li>
+      <li><a href="{{ url_for('librarian_borrowers') }}" {% if request.endpoint == 'librarian_borrowers' %}class="active"{% endif %}>Borrowers</a></li>
+      <li><a href="{{ url_for('groups') }}" {% if request.endpoint in ['groups','group_detail'] %}class="active"{% endif %}>Groups</a></li>
+      <li><a href="{{ url_for('librarian_chat') }}" {% if request.endpoint == 'librarian_chat' %}class="active"{% endif %}>Chat</a></li>
+    {% else %}
+      <li><a href="{{ url_for('member_home') }}" {% if request.endpoint == 'member_home' %}class="active"{% endif %}>Home</a></li>
+      <li><a href="{{ url_for('catalogue') }}" {% if request.endpoint == 'catalogue' %}class="active"{% endif %}>Catalogue</a></li>
+      <li><a href="{{ url_for('groups') }}" {% if request.endpoint in ['groups','group_detail'] %}class="active"{% endif %}>Study Group</a></li>
+      <li><a href="{{ url_for('chat') }}" {% if request.endpoint == 'chat' %}class="active"{% endif %}>Ask Librarian</a></li>
+      <li><a href="{{ url_for('my_account') }}" {% if request.endpoint == 'my_account' %}class="active"{% endif %}>👤</a></li>
+    {% endif %}
+  </ul>
+  <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm">Logout</a>
+</nav>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for cat, msg in messages %}
+        <div class="flash flash-{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

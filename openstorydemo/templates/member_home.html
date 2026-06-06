@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+  <div>
+    <h1>Welcome back, {{ user.username }}! 👋</h1>
+    <p>Your community library — explore books, audiobooks, journals and more.</p>
+  </div>
+  <a href="{{ url_for('catalogue') }}" class="btn btn-primary">Browse Catalogue</a>
+</div>
+
+<!-- Category summary -->
+<div class="stats-grid" style="margin-bottom:32px">
+  {% for cat in categories %}
+  <a href="{{ url_for('catalogue', type=cat.type) }}" style="text-decoration:none">
+    <div class="stat-card">
+      <span class="stat-icon">
+        {% if cat.type == 'book' %}📚
+        {% elif cat.type == 'ebook' %}📱
+        {% elif cat.type == 'audiobook' %}🎧
+        {% else %}📰{% endif %}
+      </span>
+      <div class="stat-number">{{ cat.cnt }}</div>
+      <div class="stat-label">{{ cat.type|title }}s</div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<!-- Featured resources -->
+<div class="card">
+  <h2 style="font-size:17px;margin-bottom:4px">Recently Added</h2>
+  <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Browse the latest additions to our library</p>
+  <div class="resource-grid">
+    {% for r in featured %}
+    <div class="resource-card">
+      <div style="font-size:36px;text-align:center;padding:12px 0">
+        {% if r.type == 'book' %}📚
+        {% elif r.type == 'ebook' %}📱
+        {% elif r.type == 'audiobook' %}🎧
+        {% else %}📰{% endif %}
+      </div>
+      <div class="rc-title">{{ r.title }}</div>
+      <div class="rc-author">{{ r.author }}</div>
+      <span class="badge badge-{{ r.type }}">{{ r.type }}</span>
+      <div class="rc-footer">
+        <span class="availability {% if r.available > 0 %}avail-yes{% else %}avail-no{% endif %}">
+          {% if r.available > 0 %}✓ Available{% else %}✗ On loan{% endif %}
+        </span>
+        {% if r.available > 0 %}
+        <form method="POST" action="{{ url_for('borrow', resource_id=r.id) }}">
+          <button class="btn btn-primary btn-sm" type="submit">Borrow</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Quick links -->
+<div class="stats-grid" style="margin-top:24px">
+  <a href="{{ url_for('my_account') }}" style="text-decoration:none">
+    <div class="stat-card">
+      <span class="stat-icon">📋</span>
+      <div class="stat-label" style="font-size:13px;font-weight:600">My Borrowings</div>
+    </div>
+  </a>
+  <a href="{{ url_for('groups') }}" style="text-decoration:none">
+    <div class="stat-card">
+      <span class="stat-icon">👥</span>
+      <div class="stat-label" style="font-size:13px;font-weight:600">Study Groups</div>
+    </div>
+  </a>
+  <a href="{{ url_for('chat') }}" style="text-decoration:none">
+    <div class="stat-card">
+      <span class="stat-icon">💬</span>
+      <div class="stat-label" style="font-size:13px;font-weight:600">Ask a Librarian</div>
+    </div>
+  </a>
+  <a href="{{ url_for('catalogue', type='audiobook') }}" style="text-decoration:none">
+    <div class="stat-card">
+      <span class="stat-icon">🎧</span>
+      <div class="stat-label" style="font-size:13px;font-weight:600">Audiobooks</div>
+    </div>
+  </a>
+</div>
+{% endblock %}
