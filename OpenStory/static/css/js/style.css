@@ -265,3 +265,24 @@ main { max-width: 1280px; margin: 0 auto; padding: 24px 32px; }
     font-size: 16px;
 }
 .error-text { color: var(--accent); font-size: 12px; font-weight: 600; margin-top: 4px; }
+
+/*--Catalogue--*/
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+.resource-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+}
+.resource-card .rc-title { font-weight: 700; margin-bottom: 4px; font-size: 14px; }
+.resource-card .rc-author { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+.resource-card .rc-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px;}
+.availability { font-size: 12px; font-weight: 600; }
+.avail-yes {color: var(--badge-green); }
+.avail-no {color: var(--badge-red); }
+
