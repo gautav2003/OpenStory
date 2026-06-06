@@ -159,3 +159,31 @@ tbody tr:hover { background: #fafafa; }
 .badge-journal   { background: #FEF9E7; color: var(--badge-orange); }
 .badge-online    { background: #EAFAF1; color: var(--badge-green); }
 
+/* --Forms-- */
+.form-group { margin-bottom: 16px; }
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+}
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border .2s;
+    background: var(--white);
+}
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+.select.form-control { cursor: pointer; }
+.form-row { display: flex; gap: 12px; }
+.form-row .form-group { flex: 1; }
+.checkbox-row { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.checkbox-row input { width: 16px; height: 16px; cursor: pointer; }
+
