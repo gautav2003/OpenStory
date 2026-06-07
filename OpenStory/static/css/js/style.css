@@ -344,3 +344,13 @@ main { max-width: 1280px; margin: 0 auto; padding: 24px 32px; }
 .member-avatar { width: 28px; height: 28px; border-radius: 50; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
 .online-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--badge-green); margin-left: auto; }
 
+/*--Librarian chat sidebar--*/
+.lib-chat-layout { display: grid; grid-template-columns: 280px 1fr; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--white); min-height: 500px; overflow: hidden; }
+.lib-chat-sidebar { border-right: 1px solid var(--border); }
+.lib-chat-sidebar h4 { padding: 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.convo-item { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; }
+.convo-item:hover, .convo-item.active { background: var(--light-bg); }
+.convo-item .convo-name { font-weight: 600; font-size: 13px; }
+.convo-item .convo-time { font-size: 11px; color: var(--text-muted); }
+.unread-badge { background: var(--accent); color: #fff; font-size: 10px; padding: 1px 6px; margin-left: 6px; }
+
