@@ -66,5 +66,21 @@ def init_db():
             fine_amount  REAL    NOT NULL DEFAULT  0.0 
         );
 
+        CREATE TABLE IF NOT EXISTS study groups (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            name         TEXT    NOT NULL,
+            description  TEXT,
+            created_by   INTEGER NOT NULL REFERENCES user(id),
+            created_on   TEXT    NOT NULL,
+            ACTIVE       INTEGER NOT NULL DEFAULT 1    
+        );
+
+        CREATE TABLE IF NOT EXISTS group members (
+            group_id      INTEGER NOT NULL REFERENCES study_groups(id),
+            user_id       INTEGER NOT NULL REFERENCES users(id),
+            joined_on     TEXT    NOT NULL,
+            PRIMARY KEY   (group_id, user_id)
+        );
+
          
         """)
