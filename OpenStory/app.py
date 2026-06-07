@@ -90,5 +90,24 @@ def init_db():
             sent_at      TEXT    NOT NULL    
         );
 
+        CREATE TABLE IF NOT EXISTS group_tasks (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            group_id     INTEGER NOT NULL REFERENCES study_groups(id),
+            title        TEXT     NOT NULL,
+            assigned to  TEXT,
+            due_date     TEXT,
+            status       TEXT     NOT NULL DEFAULT 'pending' -- 'pending', 'in-progress', 'completed'
+        );
+
+        CREATE TABLE IF NOT EXISTS chat_messages (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id      INTEGER REFERENCES users(id),
+            librarian_id INTEGER REFERENCES users(id),
+            message      TEXT    NOT NULL,
+            sender_role  TEXT    NOT NULL, -- 'member' or 'librarian'
+            sent_at      TEXT    NOT NULL,
+            is_read      INTEGER NOT NULL DEFAULT 0  
+        );
+
          
         """)
