@@ -76,10 +76,18 @@ def init_db():
         );
 
         CREATE TABLE IF NOT EXISTS group members (
-            group_id      INTEGER NOT NULL REFERENCES study_groups(id),
-            user_id       INTEGER NOT NULL REFERENCES users(id),
-            joined_on     TEXT    NOT NULL,
-            PRIMARY KEY   (group_id, user_id)
+            group_id     INTEGER NOT NULL REFERENCES study_groups(id),
+            user_id      INTEGER NOT NULL REFERENCES users(id),
+            joined_on    TEXT    NOT NULL,
+            PRIMARY KEY  (group_id, user_id)
+        );
+
+        CREATE TABLE IF NOT EXISTS group messages (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            group_id     INTEGER NOT NULL REFERENCES study_groups(id),
+            user_id      INTEGER NOT NULL REFERENCES users(id),
+            message      TEXT    NOT NULL,
+            sent_at      TEXT    NOT NULL    
         );
 
          
