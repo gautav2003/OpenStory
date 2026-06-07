@@ -332,3 +332,15 @@ main { max-width: 1280px; margin: 0 auto; padding: 24px 32px; }
 .acct.stat .sub { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
+/*--Groups--*/
+.group-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; }
+.group-task { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+.group-task input [type=checkbox] { width: 16px; height: 16px; }
+.group-task .task-info { flex: 1; }
+.group-task .task-title { font-weight: 600; font-size: 13px; }
+.task-title.completed { text-decoration: line-through; color: var(--text-muted); }
+.group-task .task-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.member-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+.member-avatar { width: 28px; height: 28px; border-radius: 50; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.online-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--badge-green); margin-left: auto; }
+
