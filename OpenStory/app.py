@@ -109,5 +109,11 @@ def init_db():
             is_read      INTEGER NOT NULL DEFAULT 0  
         );
 
-         
-        """)
+        CREATE TABLE IF NOT EXISTS mfa_codes (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            email        TEXT    NOT NULL,
+            code         TEXT    NOT NULL,
+            created_at   TEXT    NOT NULL,
+            USED         INTEGER NOT NULL DEFAULT 0
+        ); 
+    """)
