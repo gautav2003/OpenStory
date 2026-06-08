@@ -117,3 +117,25 @@ def init_db():
             USED         INTEGER NOT NULL DEFAULT 0
         ); 
     """)
+
+    #--Seed data--
+    cur.execute("SELECT COUNT(*) FROM users")
+    if cur.fetchone()[0] == 0:
+        def ph(p): return hashlib.sha256(p.encode()).hexdigest()
+
+        users = [
+            ("SushilSharma14", "Sushilsharma14@gmail.com", ph("password123"), "+64 02289763546",
+             "member", None, "2023-02-20"),
+            ("LibrarianVicky", "vicky@openstory.lib", ph("lib2024"), None,
+             "librarian", "LIB001", "2022-01-10"),
+            ("MangusK",        "mangus@gmail.com",   ph("pass456"), None,
+             "member", None, "2023-05-01"),
+            ("GursimranT", "gursimran@gmail.com", ph("pass789"), None,
+             "member", None, "2023-07-15"),
+        ]
+        cur.executemany(
+            "INSERT INTO users(username,email,password,phone,role,librarian_code,member_since) VALUES(?,?,?,?,?,?,?)"
+            users
+        )
+
+        
