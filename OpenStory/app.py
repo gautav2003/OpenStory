@@ -191,4 +191,13 @@ def init_db():
             (1,"Group Project Presentation","Gursimern","2024-03-25","in-progress"),
             (1,"Review Alogorithm problems","Magnus",None,"completed"),
         ]
+        cur.executemany(
+            "INSERT INTO group_tasks(group_id,title,assigned_to,due_date,status) VALUES(?,?,?,?,?)",
+            tasks
+        )
+        chat_msgs = [
+            (1,2,"Hello Welcome to Open Story Library support. How can I help you today?","librarian","2024-03-10 14:30:00",1),
+            (1,2,"Hi I'm looking for books on machine learning. Can you recommend some resources","member","2024-03-10 14:31:00",1),
+            (1,2,"Great question! we have several excellent resources on machin learning: Machine Learnig by Tom Mitchell (ebook available), Pattern Recognition (physical copy). Would you like me to place any of these on hold for you?","librarian","2024-03-10 14:32:00",1),
+        ]
         
