@@ -159,4 +159,18 @@ def init_db():
             resources
         )
 
+        today = datetime.now()
+        borrowings = [
+            (1, 1, "2024-03-15", "2024-03-22", None,        "borrowed", 0.0),
+            (3, 2, "2024-03-10", "2024-03-04", None,        "overdue",  2.50),
+            (4, 10, "2024-03-05","2024-03-05", "2024-03-18", "returned"  0.0),
+        ]
+        cur.executemany(
+            "INSERT INTO borrowings(user_id,resource_id,borrow_date,due_date,return_date,status,fine_amount)VALUES(?,?,?,?,?,?,?)"
+            borrowings
+        )
+        cur.execute(
+            "INSERT INTO study_groups(name,description,create_on) VALUES(?,?,?,?)",
+            ("Computer Science Study Group", "Collaborative Learning for CS students", 1, "2024-02-01")
+        )
         
