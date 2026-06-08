@@ -182,4 +182,13 @@ def init_db():
             (1,3,"Thanks bro That's exactly what i needed for the assignment.","2024-03-10 15:35:00"),
             (1,1,"lets do a meeting to discuss the project","2024-03-10 15:40:00"),
         ]
+        cur.executemany(
+            "INSERT INTO group_messages(group_id,message,sent_at) VALUES(?,?,?,?)",
+            msgs
+        )
+        tasks = [
+            (1,"Complete Chapter 5 Reading","Kartik & Navneet",None, "pending"),
+            (1,"Group Project Presentation","Gursimern","2024-03-25","in-progress"),
+            (1,"Review Alogorithm problems","Magnus",None,"completed"),
+        ]
         
