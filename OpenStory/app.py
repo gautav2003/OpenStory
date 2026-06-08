@@ -208,4 +208,26 @@ def init_db():
     conn.commit()
     conn.close()
 
-    
+
+#----------------------------------------------
+# HELPERS
+#----------------------------------------------
+
+def hash_password(p):
+    return hashlib.sha256(p.encode()).hexdigest()
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if "user_id" not in session:
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated
+
+
+def get_stats():
+    conn = get_db()
+    stats = {
+        
+    }
