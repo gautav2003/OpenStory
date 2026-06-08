@@ -229,5 +229,11 @@ def login_required(f):
 def get_stats():
     conn = get_db()
     stats = {
-        
+        "total_resources": conn.execute("SELECT COUNT(*) FROM resources").fetchone()[0],
+        "active_members":  conn.execute("SELECT COUNT(*) FROM users WHERE role='member' AND active=1").fetchone()[0],
+        "active_borrowings": conn.execute("SELECT COUNT(*) FROM borrowings WHERE status='borrowed'").fetchone()[0],
+        "overdue_items":  conn.execute("SELECT COUNT(* FROM borrowings WHERE status='overdue'").fetchone()[0],
+        "pending_chats":  conn.execute("SELECT COUNT(*) FROM chat_messages WHERE is_read=0 AND sender_role='member'").fetchone()[0],
+        "study_groups":   conn.execute("SELECT COUNT(*) FROM study_groups WHERE active=1").fetchone()[0],
+        "outstanding_fines": conn.execute("SELECT COALESCE(SUM(FINE))")  
     }
