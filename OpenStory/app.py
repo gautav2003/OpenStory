@@ -200,4 +200,12 @@ def init_db():
             (1,2,"Hi I'm looking for books on machine learning. Can you recommend some resources","member","2024-03-10 14:31:00",1),
             (1,2,"Great question! we have several excellent resources on machin learning: Machine Learnig by Tom Mitchell (ebook available), Pattern Recognition (physical copy). Would you like me to place any of these on hold for you?","librarian","2024-03-10 14:32:00",1),
         ]
-        
+        cur.executemany(
+            "INSERT INTO chat_messages(user_id,librarian_id,message,sender_role,sent_at,is_read) VALUES(?,?,?,?,?,?)",
+            chat_msgs
+        )
+
+    conn.commit()
+    conn.close()
+
+    
