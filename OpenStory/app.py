@@ -173,4 +173,13 @@ def init_db():
             "INSERT INTO study_groups(name,description,create_on) VALUES(?,?,?,?)",
             ("Computer Science Study Group", "Collaborative Learning for CS students", 1, "2024-02-01")
         )
+        cur.executemany(
+            "INSERT INTO group_members(group_id,user_id,joined_on) VALUES(?,?,?)",
+            [(1,1,"2024-02-01"),(1,3,"2024-02-02"),(1,4,"2024-02-03")]
+        )
+        msgs = [
+            (1,4,"Hey everyone! i found great resources on binary trees. Sharing in the files section","2024-03-10 15:30:00"),
+            (1,3,"Thanks bro That's exactly what i needed for the assignment.","2024-03-10 15:35:00"),
+            (1,1,"lets do a meeting to discuss the project","2024-03-10 15:40:00"),
+        ]
         
