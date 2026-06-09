@@ -291,4 +291,23 @@ def login():
                 flash("Invalid librarian code.", "error")
                 return render_template("login.html", username=username)
             
-        
+        # MFA - store a code and rediret to verify
+        code = "".join(random.choices(string.digits, k=4))
+        conn = get_db()
+        conn.execute(
+            "INSERT INTO mfa_codes(email,code,created_at) VALUES(?,?,?)",
+            (user["email"], code, datetime.now().isoformat())
+        )
+        conn.commit()
+        conn.close()
+
+        session["pending_user_id"] = user["id"]
+        session["pending_role"] = user["role"]
+        session["mfa_code"] = code          # In production: send via email
+        session["mfa_email"] = user["email"]
+        flash(f"[DEV] Your 4 difit code is: {code}", "info")
+        return redirect(url_for("mfa_verify"))
+    
+    return render_template("login.html")
+
+
