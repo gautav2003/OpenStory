@@ -267,3 +267,28 @@ def index():
         return redirect(url_for("member_home"))
     return redirect(url_for("login"))
 
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
+        is_librarian = request.form.get("is_librarian_code", "").strip()
+
+        conn = get_db()
+        user = conn.execute(
+            "SELECT * FROM user WHERE (username=? OR email=?) and active=1",
+        (username, username)
+        ).fetchone()
+        conn.close()
+
+        if not user or user["password"] != hash_password(password):
+            flash("Incorrect username or password.", "error")
+            return render_template("login.html", username=username)
+        
+        if is_librarian:
+            if user["role"] != "librarian" or user["librarian_code"] != librarian_code:
+                flash("Invalid librarian code.", "error")
+                return render_template("login.html", username=username)
+            
+        
