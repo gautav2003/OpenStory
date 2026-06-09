@@ -226,6 +226,16 @@ def login_required(f):
     return decorated
 
 
+def librarian_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if "user_id" not in session or session.get("role") != "librarian":
+            flash("Librarian access required.", "error")
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated
+
+
 def get_stats():
     conn = get_db()
     stats = {
@@ -235,5 +245,25 @@ def get_stats():
         "overdue_items":  conn.execute("SELECT COUNT(* FROM borrowings WHERE status='overdue'").fetchone()[0],
         "pending_chats":  conn.execute("SELECT COUNT(*) FROM chat_messages WHERE is_read=0 AND sender_role='member'").fetchone()[0],
         "study_groups":   conn.execute("SELECT COUNT(*) FROM study_groups WHERE active=1").fetchone()[0],
-        "outstanding_fines": conn.execute("SELECT COALESCE(SUM(FINE))")  
+        "outstanding_fines": conn.execute("SELECT COALESCE(SUM(fine_amount),0) FROM borrowings WHERE fine_amount>0 AND status!='returned'").fetchone()[0],
+        "physical_books": conn.execute("SELECT COUNT(*) FROM resources WHERE type='book'").fetchone()[0],
+        "ebooks":         conn.execute("SELECT COUNT(*) FROM rescoures WHERE type='ebook'").fetchone()[0],
+        "audiobooks":     conn.execute("SELECT COUNT(*) FORM resources WHERE type='audiobook'").fetchone()[0],
+        "journals":       conn.execute("SELECT COUNT(8) FROM resources WHERE type='journal'").fetchone()[0],   
     }
+    conn.close()
+    return stats
+
+
+#----------------------------------------------
+#AUTH ROUTES
+#----------------------------------------------
+
+@app.route("/", methods=("GET"))
+def index():
+    if "user_id" in session:
+        if session.get("role") == "librarian":
+            return redirect(url_for("librarian_dashboard"))
+        return redirect(url_for("member_home"))
+    return redirect(url_for("login"))
+
