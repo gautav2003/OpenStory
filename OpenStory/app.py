@@ -311,3 +311,31 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/mfa", methods=["GET", "POST"])
+def mfa_verify():
+    if "pending_user_id" not in session:
+        return redirect(url_for("login"))
+    
+    if request.method == "POST":
+        entered = request.form.get("code","").strip()
+        if entered == session.get("mfa_code"):
+            session["user_id"] = session.pop("pending_user_id")
+            session["role"] = session.pop("pending_role")
+            session.pop("mfa_code", None)
+            masked = session["mfa_email"][:3] + "*****" + session["mfa_email"][session["mfa_email"].index("@"):]
+            session.pop("mfa_email", None)
+            if session["role"] == "librarian":
+                return redirect(url_for("librarian_dashboard"))
+            return redirect(url_for("member_home"))
+        flash("Incorrect code. Try again.", "error")
+
+    masked = ""
+    if "mfa_email" in session:
+        e = session["mfa_email"]
+        at = e.index("@")
+        masked = e[:3] + "*****" + e[at:]
+
+        return render_template("mfa,html", masked_email=masked)
+    
+
+    
