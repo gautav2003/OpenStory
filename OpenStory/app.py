@@ -450,3 +450,27 @@ def borrow(resource_id):
     return redirect(url_for("catalogue"))
 
 
+@app.route("/return/<int:borrowing_id>", methods=["POST"])
+@login_required
+def return_book(borrowing_id):
+    conn = get_db()
+    b = conn.execute(
+        "SELECT * FROM borrowings WHERE id=? AND user_id=?",
+        (borrowing_id, session["user_id"])
+    ).fetchone()
+    if not b:
+        flash("Borrowing record not found.", "error")
+        conn.close()
+        return redirect(url_for("my_account"))
+    
+    conn.execute(
+        "UPDATE borrowings SET return_date=?, status='returned' WHERE id=?",
+        (datetime.now().strftime("%Y-%m-%d"), borrowing_id)
+    )
+    conn.execute("UPDATE resources SET available=available+1 WHERE id=?", (b["resourse_id"],))
+    conn.commit()
+    conn.close()
+    flash("Item returned successfully.", "success")
+    return redirect(url_for("my_account"))
+
+
