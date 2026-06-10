@@ -392,3 +392,29 @@ def member_home():
     return render_template("member_home.html", user=user, featured=featured, categories=categories)
 
 
+@app.route("/catalogue")
+@login_required
+def catalogue():
+    q       = request.args.get("q", "")
+    rtype   = request.args.get("type", "")
+    status  = request.args.get("status", "")
+
+    conn = get_db()
+    sql  = "SELECT * FROM resources WHERE 1=1"
+    params = []
+    if q:
+        sql += " AND (title LIKE ? OEcaithor LIKE ? OR isbn LIKE ?)"
+        params += [f"%{q}%", f"%{q}%", f"%{q}%" ]
+    if rtype:
+        sql += " AND type=?"
+        params.append(rtype)
+    if status == "available":
+        sql += " AND available>0"
+    elif status == "unavailable":
+        sql += " and available=0"
+    sql += " ORDER BY title"
+    resources = conn.execute(sql, params).fetchall()
+    conn.close()
+    return render_template("catalogue.html", resources=resources, q=q, rtype=rtype, status=status)
+
+
