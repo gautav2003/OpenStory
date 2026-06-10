@@ -338,38 +338,57 @@ def mfa_verify():
         return render_template("mfa,html", masked_email=masked)
     
 
-    @app.route("/signup", methods=["GET", "POST"])
-    def signup():
-        if request.method == "POST":
-            username = request.form.get("username", "").strip()
-            email    = request.form.get("email", "").strip()
-            password = request.form.get("password", "").strip()
-            phone    = request.form.get("phone", "").strip()
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        email    = request.form.get("email", "").strip()
+        password = request.form.get("password", "").strip()
+        phone    = request.form.get("phone", "").strip()
 
-            conn = get_db()
-            exists = conn.execute(
-                "SELECT id FROM users WHERE username=? OR email=?", (username, email)
-            ).fetchone()
-            if exists:
-                conn.close()
-                flash("Username or email already exists." "error")
-                return render_template("signup.html")
-            
-            conn.execute(
-                "INSERT INTO users(username,email,password,phone,role,member_since) VALUES(?,?,?,?,?,?)",
-                (username, email, hash_password(password), phone, "member", datetime.now().strftime("%Y-%m-%d"))
-            )
-            conn.commit()
+        conn = get_db()
+        exists = conn.execute(
+            "SELECT id FROM users WHERE username=? OR email=?", (username, email)
+        ).fetchone()
+        if exists:
             conn.close()
-            flash("Account created! Please log in.", "success")
-            return redirect(url_for("login"))
+            flash("Username or email already exists." "error")
+            return render_template("signup.html")
+            
+        conn.execute(
+            "INSERT INTO users(username,email,password,phone,role,member_since) VALUES(?,?,?,?,?,?)",
+            (username, email, hash_password(password), phone, "member", datetime.now().strftime("%Y-%m-%d"))
+        )
+        conn.commit()
+        conn.close()
+        flash("Account created! Please log in.", "success")
+        return redirect(url_for("login"))
         
-        return render_template("signup.html")
+    return render_template("signup.html")
     
 
-    @app.route("/logout")
-    def logout():
-        session.clear()
-        return redirect(url_for("login"))
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
     
-    
+
+#----------------------------------------------
+#MEMBER ROUTES
+#----------------------------------------------
+
+@app.route("/home")
+@login_required
+def member_home():
+    conn = get_db()
+    user = conn.execute("SELECT * FROM users WHERE id=?", (session["user_id"],)).fetchone()
+    featured =conn.execute(
+        "SELECT * FROM resources WHERE available>0 ORDER BY id DESC LIMIT 6"
+    ).fetchall()
+    categories = conn.execute(
+        "SELECT type, COUNT(*) as cnt FROM rescources GROUP BY type"
+    ).fetchall()
+    conn.close()
+    return render_template("member_home.html", user=user, featured=featured, categories=categories)
+
+
