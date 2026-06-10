@@ -418,3 +418,35 @@ def catalogue():
     return render_template("catalogue.html", resources=resources, q=q, rtype=rtype, status=status)
 
 
+@app.route("/borrow/<int:resource_id>", methods=["POST"])
+@login_required
+def borrow(resource_id):
+    conn = get_db()
+    resource = conn.execute("SELECT * FROM resources WHERE id=?", (resource_id,)).fetchone()
+    if not resource or resource["available"] < 1:
+        flash("Resource not available", "error")
+        conn.close()
+        return redirect(url_for("catalogue"))
+    
+    already = conn.execute(
+        "SELECT id FROM borrowings WHERE user_id=? AND resource_id=? AND status='borrowed'",
+        (session["user_id"], resource_id)
+    ).fetchone
+    if already:
+        flash("You already have this item borrowed.", "error")
+        conn.close()
+        return redirect(url_for("catalogue"))
+    
+    borrow_date = datetime.now().strftime("%Y-%m-%d")
+    due_date    =(datetime.now() + timedelta(days=14)).strftime("%Y-%m-%d")
+    conn.execute(
+        "INSERT INTO borrowings(user_id,resource_id,borrow_date,due_date,status) VALUES(?,?,?,?,?)",
+        (session["user_id"], resource_id, borrow_date, due_date, "borrowed")
+    )
+    conn.execute("UPDATE resources SET available=available-1 WHERE id=?", (resource_id,))
+    conn.commit()
+    conn.close()
+    flash(f"'{resource['title']}' borrowed successfuly! Due {due_date}.", "success")
+    return redirect(url_for("catalogue"))
+
+
