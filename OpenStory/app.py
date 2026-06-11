@@ -509,3 +509,44 @@ def my_account():
                            history=history, counts=counts, by_type=by_type)
 
 
+@app.route("/account/edit", methods=["POST"])
+@login_required
+def edit_account():
+    username = request.form.get("username", "").strip()
+    phone    = request.form.get("phone", "").strip()
+    conn = get_db()
+    conn.execute("UPDATE users SET username=?, phone=? WHERE id=?",
+                 (username, phone, session["user_id"]))
+    conn.commit()
+    conn.close()
+    flash("Profile updated.", "success")
+    return redirect(url_for("my_account"))
+
+
+#--Study Groups--
+
+@app.route("/groups")
+@login_required
+def groups():
+    conn = get_db()
+    user_groups = conn.execute("""
+        SELECT sg.*, u.username as creator,
+               (SELECT COUNT (*) FROM group_members gm2 WHERE gm2.group_id=sg.id) as member_count
+        FROM study_groups sg
+        JOIN group_members gm ON sg.id=gm.group_id
+        JOIN users u ON sg.created_by=u.id
+        WHERE gm.user_id=? AND sg.active=1
+    """, (session["user_id"],)).fetchall()
+    all_groups = conn.execute("""
+        SELECT sg.*, u.username as creator,
+               (SELECT COUNT(* FROM group_members gm2 WHERE gm2.group_id=sg.id) as member_count
+        FROM study_groups sg
+        JOIN users u ON sg.created_by=u.id
+        WHERE sg.active=1 AND sg.id NOT IN(
+            SELECT group_id FROM group_members WHERE user_id=?
+        )
+    """, (session["user_id"],)).fetchall()
+    conn.close()
+    return render_template("groups.html", user_groups=user_groups, all_groups=all_groups)
+
+
