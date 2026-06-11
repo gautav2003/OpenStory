@@ -550,3 +550,27 @@ def groups():
     return render_template("groups.html", user_groups=user_groups, all_groups=all_groups)
 
 
+@app.route("/groups/create", methods=["POST"])
+@login_required
+def create_group():
+    name = request.form.get("name", "").strip()
+    desc = request.form.get("description", "").strip()
+    if not name:
+        flash("Group name required.", "error")
+        return redirect(url_for("groups"))
+    conn = get_db()
+    cur = conn.execute(
+        "INSERT INTO study_groups(name,description,created_by,created_on) VALUES(?,?,?,?)",
+        (name, desc, session["user_id"], datetime.now().strftime("%Y-%m-%d"))
+    )
+    gid = cur.lastrowid
+    conn.execute(
+        "INSERT INTO group_members(group_id,user_id,joined_on) VALUES(?,?,?)",
+        (gid, session["user_id"], datetime.now().strftime("%Y-%m-%d"))
+    )
+    conn.commit()
+    conn.close()
+    flash(f"Group '{name}' created!", "success")
+    return redirect(url_for("group_detail", group_id=gid))
+
+
