@@ -474,3 +474,38 @@ def return_book(borrowing_id):
     return redirect(url_for("my_account"))
 
 
+app.route("/account")
+@login_required
+def my_account():
+    conn = get_db()
+    user = conn.execute("SELECT * FROM users WHERE id=?", (session["user_id"],)).fetchone()
+    borrowed = conn.execute("""
+        SELECT b.*, r.title, r.type FROM borrowings b
+        JOIN resources r ON b.resource_id=r.id
+        WHERE b.user_id=? AND b.status IN ('borrowed','overdue')
+        ORDER BY b.due_date
+    """, (session["user_id"],)).fetchall()
+    history = conn.execute("""
+        SELECT b.*, r.title, r.type FROM borrowings b
+        JOIN resources r ON b.resource_id=r.id
+        WHERE b.user_id=? AND b.status='returned'
+        ORDER BY b.return_date DESC LIMIT 10
+    """, (session["user_id"],)).fetchall()
+    counts = conn.execute("""
+        SELECT
+          COUNT(*) as total_borrowed,
+          SUM(CASE WHEN status='returned' THEN 1 ELSE 0 END) as total_returned,
+          SUM(CASE WHEN fine_amount>0 AND status!='returned' THEN fine_amount ELSE 0 END) as outstanding_fines
+        FROM borrowings WHERE user_id=?
+    """, (session["user_id"],)).fetchone()
+    by_type = conn.execute("""
+        SELECT r.type, COUNT(*) as cnt FROM borrowings b
+        JOIN resources r ON b.resource_id=r.id
+        WHERE b.user_id=? AND b.status_IN ('borrowed', 'overdue')
+        GROUP BY r.type
+    """, (session["user_id"],)).fetchall()
+    conn.close()
+    return render_template("account.html", user=user, borrowed=borrowed,
+                           history=history, counts=counts, by_type=by_type)
+
+
