@@ -574,3 +574,28 @@ def create_group():
     return redirect(url_for("group_detail", group_id=gid))
 
 
+@app.route("/groups/int:group_id>")
+@login_required
+def group_detail(group_id):
+    conn = get_db()
+    group = conn.execute("SELECT * FROM study_groups WHERE id=?", (group_id,)).fetchone()
+    if not group:
+        flash("Group not found.", "error")
+        return redirect(url_for("groups"))
+    messages = conn.execute("""
+        SELECT gm.*, u.username FROM group_messages gm
+        JOIN users u ON gm.user_id=u.id
+        WHERE gm.group_id=? ORDER BY gm.sent_at
+    """, (group_id,)).fetchall()
+    members = conn.execute("""
+        SELECT u.username, u.id FROM group_members gm
+        JOIN users u ON gm.user_id=u.id
+        WHERE gm.group_id=?
+    """, (group_id,)).fetchall()
+    tasks = conn.execute("SELECT * FROM group_tasks WHERE group_id=? ORDER BY id", (group_id,)).fetchall()
+    user = conn.execute("SELECT * FROM users WHERE id=?", (session["user_id"],)).fetchone()
+    conn.close()
+    return render_template("group_detail.html", group=group, messages=messages,
+                           members=members, tasks=tasks, user=user)
+
+
