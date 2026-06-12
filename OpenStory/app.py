@@ -644,3 +644,23 @@ def update_task_status(task_id):
     return redirect(url_for("group_detail", group_id=gid))
 
 
+#--Ask a Librarian Chat--
+
+@app.route("/chat")
+@login_required
+def chat():
+    conn = get_db()
+    user = conn.execute("SELECT * FROM users WHERE id=?", (session["user_id"],)).fetchone()
+    messages = conn.execute("""
+        SELECT cm.*, u.username as sender_name FROM chat_messages cm
+        LEFT JOIN users u ON (
+            CASE WHEN cm.sender_role='member' THEN cm.user_id
+                 ELSE cm.librarian_id END = u.id
+        )
+        WHERE cm.user_id=? ORDER BY cm.sent_at
+    """, (session["user_id"],)).fetchall()
+    conn.close()
+    return render_template("chat.html", user=user, messages=messages)
+
+
+    
