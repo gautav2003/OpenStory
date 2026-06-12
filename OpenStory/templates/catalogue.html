@@ -28,3 +28,23 @@
   </form>
 </div>
 
+{% if resources %}
+<div class="card">
+  <table>
+    <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>ISBN</th>
+          <th>Type</th>
+          <th>Available</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for r in resources %}
+      
+    </tbody>
+  </table>
+</div>
