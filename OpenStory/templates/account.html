@@ -1,0 +1,10 @@
+{% extents "base.html" %}
+{% block title %}My Account{% endblock %}
+{% block content %}
+<div class="page-header" style="display:flex;justify-content:space-between;align-items:center">
+  <div>
+    <h1>MY=y Account</h1>
+  </div>
+  <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm">Logout</a>
+</div>
+
