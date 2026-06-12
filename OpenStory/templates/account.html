@@ -45,3 +45,31 @@
   </form>
 </div>
 
+<!--Stats-->
+<div class="Account-stats" style="margin-bottom:20px">
+  <div class="acct-stat">
+    <div class="icon">📦</div>
+    <div class="num">{{ count.total_borrowed or 0 }}</div>
+    <div class="lbl">Currently Borrowed</div>
+    <div class="sub">Books, eBooks, Audiobooks, Journal</div>
+  </div>
+  <div class="acct-stat">
+    <div class="icon">↩️</div>
+    <div class="num">{{ count.total_returned or 0 }}</div>
+    <div class="lbl">Returned</div>
+    <div class="sub">All time returns</div>
+  </div>  
+  <div class="acct-stats">
+    <div class="icon">📕</div>
+    <div class="num">0</div>
+    <div class="lbl">Damaged</div>
+    <div class="sub">Items reported damaged</div>
+  </div>
+  <div class="acct-stat">
+    <div class="icon">💵</div>
+    <div class="num">${{ "%.2f"|format(counts.outstanding_fines or 0) }}</div>
+    <div class="lbl">Outstanding Fines</div>
+    <div class="sub">Pay now to avoid late fees</div>
+  </div>
+</div>
+
