@@ -614,3 +614,20 @@ def group_message(group_id):
     return redirect(url_for("group_detail", group_id=group_id))
 
 
+@app.route("/groups/<int:group_id>/task", methods=["POST"])
+@login_required
+def add_task(group_id):
+    title      = request.form.get("title", "").strip()
+    assigned   = request.form.get("assigned_to", "").strip()
+    due_date   = request.form.get("due_date", "").strip() or None
+    if title:
+        conn = get_db()
+        conn.execute(
+            "INSERT INTO group_tasks(group_id,title,assigned_to,due_date,status) VALUES(?,?,?,?,?)",
+            (group_id, title, assigned, due_date, "pending")
+        )
+        conn.commit()
+        conn.close()
+    return redirect(url_for("group_detail", group_id=group_id))
+
+
