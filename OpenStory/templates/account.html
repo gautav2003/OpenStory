@@ -73,3 +73,29 @@
   </div>
 </div>
 
+<!--Borrowed by type + Returns by type-->
+{% if by_type %}
+<div class="two-col" style="margin-bottom:20px">
+  <div class="card">
+    <h3 style="font-size:14px;margin-bottom:12px">Borrowed by Type</h3>
+    {% for t in by_type %}
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0">
+      <span>{{ t.type|title }}s</span>
+      <strong>{{ t.cnt }}</strong>  
+    </div>
+    {% endfor %}
+  </div>
+  <div class="card">
+    <h3 style="font-size:14px;margin-bottom:12px">Your History</h3>
+    {% for b in history[:5] %}
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:12px">
+      <span>{{ b.title }}</span>
+      <span class="badge badge-returned">returned</span>  
+    </div>
+    {% else %}
+    <p style="color:var(--text-muted);font-size:13px">No return history yet.</p>
+    {% endfor %}
+  </div>  
+</div>
+{% endif %}
+
