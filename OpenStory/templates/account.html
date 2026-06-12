@@ -99,3 +99,45 @@
 </div>
 {% endif %}
 
+<!--Currently Borrowed-->
+<div class="card">
+  <h3 style="font-size:15px;margin-bottom:16px">Currently Borrowed items</h3>
+  {% if borrowed %}
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>  
+    </thead>
+    <tbody>
+      {% for b in borrowed %}
+      {% set days_left= ((b.due_date|replace)('-','')|int - (now.strftime('%Y%m%d%') if now else 0)| int) %}
+      <tr>
+        <td>📖</td>
+        <td><strong>{{ b.title }}</strong></td>
+        <td><span class="badge badge-{{ b.type }}">{{ b.type }}</span></td>
+        <td>
+          <span{% if b.status == 'overdue' %} style="color:var(--accent)"{% endif %}>
+            {{ b.due_date }}
+          </span>  
+        </td>
+        <td><span class="badge badge-{{ b.status }}">{{ b.status }}</span></td>
+        <td>
+          <form method="POST" action="{{ url_for('return_book', borrowing_id=b.id)}}">
+            <button type="submit" class="btnbtn-outline btn-sm">Renew / Return</button>
+          </form>  
+        </td>
+      </tr>  
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p style="color:var(--text-muted);font-size:13px">You have no active borrowings.</p>
+  {% endif %}  
+</div>
+{% endblock %}
