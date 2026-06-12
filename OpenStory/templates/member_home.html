@@ -10,5 +10,24 @@
       <a href="{{ url_for('catalogue')}}" class="btn btn-primary">Browse catalogue</a>
     </div>
 
-    
+<!--Category summary-->
+<div class="stats-grid" style="margin-bottom:32px">
+  {% for cat in categories %}
+  <a href="{{ url_for('catalogue', type=cat.type) }}" style="text-decoration:none">
+    <div class="stat-card">
+        <span class="stat-icon">
+            {% if cat.type == 'book' %}📚
+            {% elif cat.type == 'ebook' %}📱
+            {% elif cat.type == 'audiobook' %}🎧
+            {% else %}📰{% endif %}
+        </span>
+        <div class="stat-number">{{ cat.cnt }}</div>
+        <div class="stat-label">{{ cat.type|title }}s</div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<!--Featured resources-->
+
 </div>
