@@ -6,3 +6,25 @@
   <p>Search and borrow books, ebooks, audiobooks, and journals.</p>
 </div>
 
+<div class="card" style="margin-bottom:20px">
+  <form method="GET" action="{{ url_for('catalogue') }}" class="search-bar">
+    <input class="form-control" type="text" name="q" value="{{ q }}" placeholder="🔍 Search by title, author or ISBN...">
+    <select class="form-control" name="type" style="max-width:150px">
+      <option value="">All Types</option>
+      <option value="book"      {% if rtype=='book' %}selected{% endif %}>Books</option>
+      <option value="ebook"     {% if rtype=='ebook' %}selected{% endif %}>eBooks</option>
+      <option value="audiobook" {% if rtype=='audiobook' %}selected{% endif %}>Audiobooks</option>
+      <option value="journal"   {% if rtype=='journal' %}selected{% endif %}>Journals</option>
+    </select>
+    <select class="form-control" name="status" style="max-width:150px">
+      <option value="">All Status</option>
+      <option value="available" {% if status=='available' %}selected{% endif %}>Available</option>
+      <option value="unavailable" {% if status=='unavailable' %}selected(% endif %)>On Loan</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if q or rtype or status %}
+      <a href="{{ url_for('catalogue') }}" class="btn btn-outline">Clear</a>
+    {% endif %}
+  </form>
+</div>
+
