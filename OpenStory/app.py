@@ -663,4 +663,18 @@ def chat():
     return render_template("chat.html", user=user, messages=messages)
 
 
-    
+@app.route("/chat/send", methods=["POST"])
+@login_required
+def chat_sent():
+    message = request.form.get("message", "").strip()
+    if message:
+        conn = get_db()
+        conn.execute(
+            "INSERT INTO chat_messages(user_id,message,sender_role,sent_at,is_read) VALUES(?,?,?,?,?)",
+            (session["user_id"], message, "member", datetime.now().strftime("%Y_%m_%d %H:%M:%S"), 0)
+        )
+        conn.commit()
+        conn.close()
+    return redirect(url_for("chat"))
+
+
