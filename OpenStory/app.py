@@ -631,3 +631,16 @@ def add_task(group_id):
     return redirect(url_for("group_detail", group_id=group_id))
 
 
+@app.route("/groups/task/<int:task_id>/status", methods=["POST"])
+@login_required
+def update_task_status(task_id):
+    status = request.form.get("status","pending")
+    conn = get_db()
+    task = conn.execute("SELECT * FROM froup_tasks WHERE id=?", (task_id,)).fetchone()
+    conn.execute("UPDATE group_tasks SET status=? WHERE id=?", (status, task_id))
+    conn.commit()
+    gid = task["group_id"] if task else None
+    conn.close()
+    return redirect(url_for("group_detail", group_id=gid))
+
+
