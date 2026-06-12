@@ -599,3 +599,18 @@ def group_detail(group_id):
                            members=members, tasks=tasks, user=user)
 
 
+@app.route("/groups/<int:group_id>/message", methods=["POST"])
+@login_required
+def group_message(group_id):
+    msg = request.form.get("message", "").strip()
+    if msg:
+        conn = get_db()
+        conn.execute(
+            "INSERT INTO group_messages(group_id,user_id,message,sent_at) VALUES(?,?,?,?)",
+            (group_id, session["user_id"], msg, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        )
+        conn.commit()
+        conn.close()
+    return redirect(url_for("group_detail", group_id=group_id))
+
+
