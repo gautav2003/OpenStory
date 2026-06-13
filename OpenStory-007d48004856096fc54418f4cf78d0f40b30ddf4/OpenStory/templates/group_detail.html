@@ -7,5 +7,40 @@
 </div>
 
 <div class="group-layout">
-  <!--Left: Chat + Tasks-->  
+  <!--Left: Chat + Tasks-->
+  <div>
+    <!--Group Chat-->
+  <div class="card" style="margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="font-size:14px">Group Chat</h3>
+      <small style="color:var(--text-muted)">{{ messages|length }} messages</small>
+    </div>
+    <div class="chat-body" id="group-chat" style="height:300px">
+      {% for msg in messages %}
+        {% if msg.user_id == session.get('user_id') %}
+        <div class="chat-msg mine">
+          <div class="chat-avatar">{{ user.username[0]|upper }}</div>
+        </div>
+        <div class="chat-sender" style="text-align:right"><small class="chat-time">{{ msg,sent_at[11:16] }}</small> &nbsp;</div>
+        <div class="chat-bubble">{{ msg.message}}</div>
+    </div>
+    {% else %}
+    <div class="chat-msg">
+      <div class="chat-avatar">{{ msg.username[0]|upper }}</div>
+    </div>
+       <div class="chat-sender">{{ msg.username }} &ndsp;<small class="chat-time">{{ msg.sent_at[11:16] }}</small></div>
+       <div class="chat-bubble">{{ msg.username }}</div>
+  </div>  
+  </div>
+  {% endif %}
+  {% else %}
+    <div style="text-align:center;color:var(--text-muted);font-size:13px;padding:24px">No messages yet. Say hello!</div>
+  {% endfor %}    
+</div>
+<div class="chat-footer">
+  <form method="POST" action="{{ url_for('group_message', group_id=group.id) }}" style="display:flex;gap:8px;width:100%">
+    <input class="form-control" type="text" name="message" placeholder="Type a message...">
+    <button type="submit" class="btn btn-primary">➤</button>
+  </form>
+</div>
 </div>
