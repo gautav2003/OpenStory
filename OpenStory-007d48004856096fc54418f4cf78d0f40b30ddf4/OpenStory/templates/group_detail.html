@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{group..name}}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>{{ group.name }}</h1>
+  <p>{{ group.description or 'Collaborative learning space' }} &nbsp;.&nbsp; 👥 {{ members|length }} members</p>  
+</div>
+
+<div class="group-layout">
+  <!--Left: Chat + Tasks-->  
+</div>
