@@ -678,3 +678,22 @@ def chat_sent():
     return redirect(url_for("chat"))
 
 
+#------------------------------------------------
+#LIBRARIAN ROUTES
+#------------------------------------------------
+
+@app.route("/librarian/dashboard")
+@librarian_required
+def librarian_dashboard():
+    conn = get_db()
+    stats = get_stats()
+    recent_borrowings = conn.execute("""
+        SELECT b.*, u.username, rtitle FROM borrowings b
+        JOIN users u ON b.user_id=u.id
+        JOIN resources r ON b.resource_id=r.id
+        ORDER BY b.borrow_date DESC LIMIT 10
+    """).fetchall()
+    conn.close()
+    return render_template("librarian_dashboard.html", stats=stats, recent_borrowings=recent_borrowings)
+
+
