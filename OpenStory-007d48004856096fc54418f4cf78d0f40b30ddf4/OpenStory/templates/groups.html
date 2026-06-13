@@ -59,3 +59,24 @@
 </div>
 {% endif %}
 
+<!--Create Group Modal-->
+<div id="create-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center">
+  <div class="card" style="max-width:440px;width:100%;padding:28px">
+    <h3 style="margin-bottom:16px">Create Study Group</h3>
+    <form method="POST" action="{{ url_for('create_group') }}">
+      <div class="form-group">
+        <label>Group Name</label>
+        <input class="form-control" type="text" name="name" placeholder="e.g. CS Study Group" required> 
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" name="description" rows="3" placeholder="What is this group about?"></textarea>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('create-modal').style.display='none'"> Cancel</button>
+      </div> 
+    </form>
+  </div>  
+</div>
+{% endblock %}
