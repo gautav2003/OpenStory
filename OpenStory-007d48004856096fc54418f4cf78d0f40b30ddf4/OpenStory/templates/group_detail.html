@@ -74,5 +74,25 @@
     </form>
   </div>
 
-  
+  {% for task in tasks %}
+  <div class="group-task">
+    <input type="checkbox" {% if task.status == 'completed' %}checked{% endif %}
+           Onchange="updateTask({{task.id}}, this.checked)">
+    <div class="task-info">
+      <div class="task-title {% if task.status == 'completed' %}completed{% endif %}">{{ task.title }}</div>
+      <div class="task-meta">
+        {% if task.assigned_to %}Assigned to {{ task.assigned_to }}{% endif %}
+        {% if task.due_date %} . Due {{ task.due_date }}{% endif %}
+      </div>
+    </div>
+    <form method="POST" action="{{ url_for('update_task_status', task_id=task.id) }}" id="task{{ task.id }}-form">
+      <input type="hidden" name="status" id="task-{{ task.id }}-status" value="{{ task.status }}">
+      <Span class="badge badge-{{ task.status }}">{{ task.status }}</Span>
+    </form>
+  </div>
+  {% else %}
+  <p style="color:var(--text-muted);font-size:13px">No tasks yet.</p>
+  {% endfor %}
 </div>
+</div>
+
