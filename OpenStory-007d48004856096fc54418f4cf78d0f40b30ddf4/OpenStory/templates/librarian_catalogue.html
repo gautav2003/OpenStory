@@ -52,3 +52,37 @@
     <button type="submit" class="btn btn-primary">Search</button>
   </form>
 </div>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Type</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Total Copies</th>
+        <th>Available</th>
+        <th>Actions</th>
+      </tr>  
+    </thead>
+    <tbody>
+      {% for r in resources %}
+      <tr>
+        <td><strong>{{ r.title }}</strong></td>
+        <td><span class="badge badge-{{ r.type }}">{{ r.type }}</span></td>
+        <td>{{ r.author }}</td>
+        <td style="font-size:12px;color:var(--text-muted)">{{ r.isbn }}</td>
+        <td>{{ r.total_copies }}</td>
+        <td>{{ r.available }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('delete_resource', resource_id=r.id) }}"
+                onsubmit="return confirm('Delete {{ r.title }}?')" style="display:inline">
+            <button type="submit class"btn btn-danger btn-sm>🗑</button>
+          </form>  
+        </td>
+      </tr>
+      {% endfor %}  
+    </tbody>
+  </table>
+</div>
