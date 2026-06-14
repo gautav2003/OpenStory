@@ -33,9 +33,17 @@
             {% endif %}
         </td>
         <td>
-            
+          {% if m.active %}
+            <span class="badge badge-online">Active</span>
+        {% else %}
+           <span class="badge badge-overdue">Suspended</span>
+           {% endif %}
         </td>
       </tr> 
+      {% else %}
+      <tr><td colspan="6" style="text-align:center;color:var(--text-muted)">No members found.</td></tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>
+{% endblock %}
