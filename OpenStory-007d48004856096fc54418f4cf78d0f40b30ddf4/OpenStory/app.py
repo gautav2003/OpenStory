@@ -697,3 +697,31 @@ def librarian_dashboard():
     return render_template("librarian_dashboard.html", stats=stats, recent_borrowings=recent_borrowings)
 
 
+@app.route("/librarian/catalogue")
+@librarian_required
+def librarian_catalogue():
+    q      = request.args.get("q", "")
+    rtype  = request.args.get("type", "")
+    status = request.args.get("status", "")
+
+    conn = get_db()
+    sql    = "SELECT * FROM resources WHERE 1=1"
+    params =[]
+    if q:
+        sql += " AND (title LIKE ? OR author LIKE ? OR isbn LIKE ?)"
+        params += [f"%{q}%", f"%{q}%", f"%{q}%"]
+    if rtype:
+        sql += " AND type=?"
+        params.append(rtype)
+    if status == "available":
+        sql += " AND available>0"
+    elif status == "unavailable":
+        sql += " AND available=0"
+    sql += " ORDER BY title"
+    resources = conn.execute(sql, params).fetchall()
+    stats = get_stats()
+    conn.close()
+    return render_template("librarian_catalogue.html", resources=resources,
+                           stats=stats, q=q, rtype=rtype, status=status)
+
+
