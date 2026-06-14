@@ -808,3 +808,20 @@ def librarian_chat():
                            selected_messages=selected_messages, selected_user=selected_user)
 
 
+@app.route("/librarian/chat/reply", methods=["POST"])
+@librarian_required
+def librarian_reply():
+    user_id = request.form.get("user_id", type=int)
+    message = request.form.get("message", "").strip()
+    if message and user_id:
+        conn = get_db()
+        conn.execute(
+            "INSERT INTO chat_messages(user_id,librarian_id,message,sender_role,sent_at,is_read) VALUES(?,?,?,?,?,?)",
+            (user_id, session["user_id"], message, "librarian",
+             datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 1)
+        )
+        conn.commit()
+        conn.close()
+    return redirect(url_for("librarian_chat", user_id=user_id))
+
+
