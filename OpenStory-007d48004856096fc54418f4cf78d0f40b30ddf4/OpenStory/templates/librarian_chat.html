@@ -8,5 +8,28 @@
 
 <div class="lib-chat-layout">
   <!--Sidebar: conversation list-->
-    
+  <div class="lib-chat-sidebar">
+    <h4>Conversations
+      {% if coversations %}
+        <span class="unread-badge">{{ conversations|selectattr('unread','gt',0)|list|length }}</span>
+      {% endif %}     
+    </h4>
+    {% for c in conversations %}
+    <a href="{{url_for('librarian_chat', user_id=c.id) }}" style="text-decoration:none;color:inherit">
+      <div class="convo-item {% if selected_user and selected_user.id == c.id %}active{% endif %}">
+        <div class="convo-name">
+          {{ c.username }}
+          {% if c.unread > 0 %}
+            <span class="unread-badge">{{ c.unread }}</span>
+            {% endif %}  
+        </div>
+        <div class="convo-time">{{ c.last_message[:16] }}</div>
+      </div>   
+    </a>
+    {% else %}
+    <div style="padding:16;color:var(--text-muted);font-size:13px">No conversations yet.</div>
+    {% endfor %}
+  </div>
+
+  
 </div>
