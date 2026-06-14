@@ -745,3 +745,14 @@ def add_resource():
     return redirect(url_for("librarian_catalogue"))
 
 
+@app.route("/librarian/resource/delete/<int:resource_id>", methods=["POST"])
+@librarian_required
+def delete_resource(resource_id):
+    conn = get_db()
+    conn.execute("DELETE FROM resources WHERE id=?", (resource_id,))
+    conn.commit()
+    conn.close()
+    flash("Resource deleted.", "success")
+    return redirect(url_for("librarian_catalogue"))
+
+
