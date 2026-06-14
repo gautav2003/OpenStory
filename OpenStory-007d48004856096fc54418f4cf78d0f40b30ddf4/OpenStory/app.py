@@ -725,7 +725,7 @@ def librarian_catalogue():
                            stats=stats, q=q, rtype=rtype, status=status)
 
 
-@app.rute("/librarian/resource/add", methods=["POST"])
+@app.route("/librarian/resource/add", methods=["POST"])
 @librarian_required
 def add_resource():
     title   = request.form.get("title", "").strip()
@@ -754,5 +754,22 @@ def delete_resource(resource_id):
     conn.close()
     flash("Resource deleted.", "success")
     return redirect(url_for("librarian_catalogue"))
+
+
+@app.route("/librarian/borrowers")
+@librarian_required
+def librarian_borrowers():
+    conn = get_db()
+    members = conn.execute("""
+        SELECT u.*,
+                COUNT(CASE WHEN b.status IN('borrowed','overdue') THEN 1 END) as active_borrows,
+                COALESCE(SUM(CASE WHEN b.fine_amount>0 AND b.status!='returned' THEN b.fine_amount ELSE 0 END) as fines
+        FROM users u
+        LEFT JOIN borrowings b ON u.id=b.user_id
+        WHERE u.role='member'
+        GROUP BY u.id ORDER BY u.username
+    """).fetchall()
+    conn.close()
+    return render_template("librarian_borrowers.html", members=members)
 
 
