@@ -19,7 +19,23 @@
       </tr>  
     </thead>
     <tbody>
-        
+      {% for m in members %}
+      <tr>
+        <td><strong>{{ m.username }}</strong></td>
+        <td>{{ m.email }}</td>
+        <td>{{ m.member_since }}</td>
+        <td>{{ m.active_borrows }}</td>
+        <td>
+            {% if m.fines > 0 %}
+              <span style="color:var(--accent);font-weight:600">${{ "%.2f"|format(m.fines) }}</span>
+            {% else %}
+              <span style="color:var(--badge-green)">$0.00</span>
+            {% endif %}
+        </td>
+        <td>
+            
+        </td>
+      </tr> 
     </tbody>
   </table>
 </div>
