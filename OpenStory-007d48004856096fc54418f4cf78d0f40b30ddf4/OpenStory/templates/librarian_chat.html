@@ -70,3 +70,15 @@
   </form>
 </div>
 {% else %}
+<div style="display:flex;align-items:center;justify-content:center;flex:1;color:var(--text-muted);font-size:13px;padding:48px">
+  Select a conversation to start responding
+</div>
+{% endif %}
+</div>
+</div>
+
+<script>
+  const cb = document.getElementById('chat-body');
+  if(cb) cb.scrollTop = cb.scrollHeight;
+</script>
+{% endblock %}
