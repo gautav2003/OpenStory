@@ -52,5 +52,13 @@
     </div>
   </div>
   {% else %}
-   
+  <div class="chat-msg mine">
+    <div class="chat-avatar" style="background:#8E44AD">L</div>
+    <div>
+       <div class="chat-sender" style="text-align:right"><small class="chat-time">{{ msg.sent_at[11:16] }}</small>You</div>
+       <div class="chat-bubble">{{ msg.message }}</div>   
+    </div>
+  </div> 
+  {% endif %}
+{% endfor %}  
 </div>
