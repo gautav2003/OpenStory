@@ -62,3 +62,11 @@
   {% endif %}
 {% endfor %}  
 </div>
+<div class="chat-footer">
+  <form method="POST" action="{{ url_for('librarian_reply') }}" style="display:flex;gap:8px;width:100%">
+    <input type="hidden" name="user_id" value="{{ selected_user.id }}">
+    <input class="form-control" type="text" name="message" placeholder="Replay to {{ selected_user.username }}..." required>
+    <button type="submit" class="btn btn-primary">➤</button>
+  </form>
+</div>
+{% else %}
