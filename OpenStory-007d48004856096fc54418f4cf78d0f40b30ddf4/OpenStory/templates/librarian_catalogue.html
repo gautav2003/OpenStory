@@ -97,3 +97,23 @@
     <input type="file" style="display:none" accept="pdf,.epub,.mp3">
   </label>  
 </div>
+
+<!--Add Resource Modal-->
+<div id="add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center">
+  <div class="card" style="max-width:500px;width:100%;padding:28px">
+    <h3 style="margin-bottom:16px">Add New Resource</h3>
+    <form method="POST" action="{{ url_for('add_resource') }}">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Title *</label>
+          <input class="form-control" type="text" name="title" required>  
+        </div>
+        <div class="form-group">
+          <label>Author *</label>
+          <input class="form-control" type="text" name="author" required>  
+        </div>
+      </div>
+     
+    </form>
+  </div>  
+</div>
