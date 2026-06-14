@@ -26,5 +26,21 @@
     <div class="stat-number">{{ stats.ouerdue_items }}</div>
     <div class="stat-label">Overdue Items</div>
   </div>
+  <div class="stat-card">
+    <span class="stat-icon">💬</span>
+    <div class="stat-number">{{ stats.pending_chats }}</div>
+    <div class="stat-label">Pending Chats</div>
+    <div class="stat-action">
+      <a href="{{ url_for('librarian_chat') }}" class="btn btn-outline btn-sm">Respond Now</a>  
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">👫</span>
+    <div class="stat-number">{{ stats.study_groups }}</div>
+    <div class="stat-label">Study Groups</div>
+    <div class="stat-action">
+      <a href="{{ url_for('groups') }}"class="btn  btn-outline btn-sm">Manage Groups</a>  
+    </div>
+  </div>
   <div 
 </div>
