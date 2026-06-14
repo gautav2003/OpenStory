@@ -773,3 +773,38 @@ def librarian_borrowers():
     return render_template("librarian_borrowers.html", members=members)
 
 
+@app.route("/librarian/chat")
+@librarian_required
+def librarian_chat():
+    conn = get_db()
+    #Get distinct users who have messaged
+    conversations = conn.execute("""
+        SELECT u.id, u.username,
+                MAX(cm.sent_at) as last_message,
+                SUM(CASE WHEN CM.is_read=0 AND cm.sender_role='member' THEN 1 ELSE 0 END) as unread
+        FROM chat_messages cm
+        JOIN users u.id ORDER BY last_message DESC
+    """).fetchall()
+    selected_user_id = request.args.get("user_id", type=int)
+    selected_messages = []
+    selected_user = None
+    if selected_user_id:
+      selected_user = conn.execute("SELECT * FROM users WHERE id=?", (selected_user_id,)).fetchone()
+      selected_messages = conn.execute("""
+          SELECT cm.*, u.username FROM chat_messages cm
+        LEFT JOIN users u ON (
+            CASE WHEN cm.sender_role='member' THEN cm.user_id ELSE cm.librarian_id END = u.id
+        )
+        WHERE cm.user_id=? ORDER BY cm.sent_at                               
+    """, (selected_user_id,)).fetchall()
+    #Mark as read
+    conn.execute(
+        "UPDATE chat_messages SET is_read=1 WHERE user_id=? AND sender_role='member'",
+        (selected_user_id,)
+    )
+    conn.commit()
+    conn.close()
+    return render_template("librarian_chat.html", conversations=conversations,
+                           selected_messages=selected_messages, selected_user=selected_user)
+
+
