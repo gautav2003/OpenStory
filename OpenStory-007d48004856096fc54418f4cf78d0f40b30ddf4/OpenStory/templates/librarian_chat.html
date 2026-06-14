@@ -42,7 +42,15 @@
       <span class="badge badge-online">● Active</span>
     </div>
     <div class="chat-body" id="chat-body" style="flex:1">
-      
+      {% for masg in selected_messages %}
+        {% if msg.sender_role == 'member' %}
+        <div class="chat-msg">
+          <div class="chat-avatar">{{ selected_user.username[0]|upper }}</div>  
+        </div>
+           <div class="chat-sender">{{ selected_user.username }} <small class="chat-time">{{ msg.sent_at[11:16]} }</small></div>
+           <div class="chat-bubble">{{ msg.message }}</div>
     </div>
-  </div> 
+  </div>
+  {% else %}
+   
 </div>
