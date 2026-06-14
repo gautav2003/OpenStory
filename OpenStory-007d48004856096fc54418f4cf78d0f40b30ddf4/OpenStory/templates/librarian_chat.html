@@ -31,5 +31,18 @@
     {% endfor %}
   </div>
 
-  
+  <!--Chat window-->
+  <div style="display:flex;flex-direction:column">
+    {% if selected_user %}
+    <div class="chat-header">
+      <div>
+        <h3>{{ selected_user.username }}</h3>
+        <p>{{ selected_user.email }}</p>
+      </div>  
+      <span class="badge badge-online">● Active</span>
+    </div>
+    <div class="chat-body" id="chat-body" style="flex:1">
+      
+    </div>
+  </div> 
 </div>
