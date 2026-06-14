@@ -725,3 +725,23 @@ def librarian_catalogue():
                            stats=stats, q=q, rtype=rtype, status=status)
 
 
+@app.rute("/librarian/resource/add", methods=["POST"])
+@librarian_required
+def add_resource():
+    title   = request.form.get("title", "").strip()
+    author  = request.form.get("author", "").strip()
+    isbn    = request.form.get("isbn", "N/A").strip()
+    rtype   = request.form.get("type", "book").strip()
+    copies  = int(request.form.get("copies", 1))
+
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO resources(title,author,isbn,type,total_copies,available,added_on) VALUES(?,?,?,?,?,?,?)",
+        (title, author, isbn, rtype, copies, copies, datetime.now().strftime("%Y-%m-%d"))
+    )
+    conn.commit()
+    conn.close()
+    flash(f"'{title}' added to catalogue.", "success")
+    return redirect(url_for("librarian_catalogue"))
+
+
