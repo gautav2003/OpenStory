@@ -134,7 +134,7 @@ def init_db():
              "member", None, "2023-07-15"),
         ]
         cur.executemany(
-            "INSERT INTO users(username,email,password,phone,role,librarian_code,member_since) VALUES(?,?,?,?,?,?,?)"
+            "INSERT INTO users(username,email,password,phone,role,librarian_code,member_since) VALUES(?,?,?,?,?,?,?)",
             users
         )
 
@@ -155,7 +155,7 @@ def init_db():
             ("Machine Learning",        "Tom Mitchell",       "978-0070428072",   "ebook",       10, 7, None,  "2024-01-01"), 
         ]
         cur.executemany(
-            "INSERT INTO resources(itle,author,isbn,type,total_copies,available,file_path,added_on) VALUES(?,?,?,?,?,?,?)"
+            "INSERT INTO resources(itle,author,isbn,type,total_copies,available,file_path,added_on) VALUES(?,?,?,?,?,?,?)",
             resources
         )
 
@@ -166,7 +166,7 @@ def init_db():
             (4, 10, "2024-03-05","2024-03-05", "2024-03-18", "returned"  0.0),
         ]
         cur.executemany(
-            "INSERT INTO borrowings(user_id,resource_id,borrow_date,due_date,return_date,status,fine_amount)VALUES(?,?,?,?,?,?,?)"
+            "INSERT INTO borrowings(user_id,resource_id,borrow_date,due_date,return_date,status,fine_amount)VALUES(?,?,?,?,?,?,?)",
             borrowings
         )
         cur.execute(
@@ -840,4 +840,3 @@ if __name__ == "__main__":
     print(" Librarian → LibrarianVicky / lib2024 (code: LTB001)")
     print("=" * 60)
     app.run(debug=True, port=5000)
-    
