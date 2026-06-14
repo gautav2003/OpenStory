@@ -128,7 +128,15 @@
           </select>  
         </div>
       </div>
-      
+      <div class="form-group">
+        <label>Total Copies</label>
+        <input class="form-control" type="number" name="copies" value="1" min="1">
+      </div>
+      <div style="display:flex;gap:10px">
+        <button type="submit" class="btn btn-primary">Add Resource</button>
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('add-modal').style.display='none'">Cancel</button>
+      </div>
     </form>
   </div>  
 </div>
+{% endblock %}
