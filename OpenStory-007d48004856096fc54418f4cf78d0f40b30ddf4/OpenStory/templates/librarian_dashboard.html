@@ -42,5 +42,13 @@
       <a href="{{ url_for('groups') }}"class="btn  btn-outline btn-sm">Manage Groups</a>  
     </div>
   </div>
-  <div 
+  <div class="stat-card">
+    <span class="stat-icon">💵</span>
+    <div class="stat-number">${{ "%.2f"|format(stat.outstanding_fines) }}</div>
+    <div class="stat-label">Outstanding Fines</div>
+    <div class="stat-action">
+      <a href="{{ url_for('librarian_brrowers') }}" class="btn btn-outline btn-sm">View Details</a>  
+    </div>
+  </div>
 </div>
+
