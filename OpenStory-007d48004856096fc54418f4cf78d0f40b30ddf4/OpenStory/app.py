@@ -163,8 +163,9 @@ def init_db():
         borrowings = [
             (1, 1, "2024-03-15", "2024-03-22", None,        "borrowed", 0.0),
             (3, 2, "2024-03-10", "2024-03-04", None,        "overdue",  2.50),
-            (4, 10, "2024-03-05","2024-03-05", "2024-03-18", "returned"  0.0),
+            (4, 10, "2024-03-05","2024-03-05", "2024-03-18", "returned",  0.0),
         ]
+
         cur.executemany(
             "INSERT INTO borrowings(user_id,resource_id,borrow_date,due_date,return_date,status,fine_amount)VALUES(?,?,?,?,?,?,?)",
             borrowings
@@ -273,7 +274,8 @@ def login():
     if request.method == "POST":
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
-        is_librarian = request.form.get("is_librarian_code", "").strip()
+        is_librarian = request.form.get("is_librarian") == "on"
+        librarian_code = request.form.get("librarian_code", "").strip()
 
         conn = get_db()
         user = conn.execute(
