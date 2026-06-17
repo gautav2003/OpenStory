@@ -835,7 +835,7 @@ if __name__ == "__main__":
     init_db()
     print("=" * 60)
     print(" Open Story Library System")
-    print(" https://127.0.0.1:5000")
+    print(" http://127.0.0.1:5000")
     print()
     print(" Demo credentials:")
     print(" Member → SushilSharma14 / password123")
