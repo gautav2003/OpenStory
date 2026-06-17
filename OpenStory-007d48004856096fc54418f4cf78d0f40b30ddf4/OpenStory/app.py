@@ -142,7 +142,7 @@ def init_db():
             ("The Shining",            "Stephen King",        "849-7-593-804",    "book",         5, 3, None,  "2024-01-01"),
             ("Cat in the Hat",          "Dr. Seuss",          "978-0394800011",   "book",         5, 5, None,  "2024-01-01"),
             ("Where's Wally",           "Martian Handford",   "9781406313185",    "book",         5, 2, None,  "2024-01-01"),
-            ("Not In Love",             "Ali Hazelwood",      "9781408728901",    "ebook",       10,10, None,  "2024-01-01"),
+            ("Not In Love",             "Ali Hazelwood",      "9781408728901",    "ebook",       10, 10, None,  "2024-01-01"),
             ("Joker",                   "DC Comics",          "978-1401215811",   "ebook",       10, 8, None,  "2024-01-01"),
             ("Scooby-Doo",              "DC Comics",          "9783741637490",    "ebook",       10, 6, None,  "2024-01-01"),
             ("IT",                      "Stephen King",       "9781444707861",    "audiobook",    5, 5, None,  "2024-01-01"),
