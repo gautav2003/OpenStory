@@ -94,7 +94,7 @@ def init_db():
             id           INTEGER PRIMARY KEY AUTOINCREMENT,
             group_id     INTEGER NOT NULL REFERENCES study_groups(id),
             title        TEXT     NOT NULL,
-            assigned to  TEXT,
+            assigned_to  TEXT,
             due_date     TEXT,
             status       TEXT     NOT NULL DEFAULT 'pending' -- 'pending', 'in-progress', 'completed'
         );
