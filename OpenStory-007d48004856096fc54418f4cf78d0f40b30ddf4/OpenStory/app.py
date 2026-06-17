@@ -155,7 +155,7 @@ def init_db():
             ("Machine Learning",        "Tom Mitchell",       "978-0070428072",   "ebook",       10, 7, None,  "2024-01-01"), 
         ]
         cur.executemany(
-            "INSERT INTO resources(itle,author,isbn,type,total_copies,available,file_path,added_on) VALUES(?,?,?,?,?,?,?)",
+            "INSERT INTO resources(title,author,isbn,type,total_copies,available,file_path,added_on) VALUES(?,?,?,?,?,?,?)",
             resources
         )
 
