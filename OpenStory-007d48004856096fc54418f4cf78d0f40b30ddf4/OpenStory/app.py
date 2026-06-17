@@ -832,7 +832,7 @@ def librarian_reply():
 #-----------------------------------------------
 
 if __name__ == "__main__":
-    init_db
+    init_db()
     print("=" * 60)
     print(" Open Story Library System")
     print(" https://127.0.0.1:5000")
