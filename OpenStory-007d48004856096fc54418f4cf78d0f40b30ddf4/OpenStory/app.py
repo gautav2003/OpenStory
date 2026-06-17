@@ -260,7 +260,7 @@ def get_stats():
 #AUTH ROUTES
 #----------------------------------------------
 
-@app.route("/", methods=("GET"))
+@app.route("/", methods=["GET"])
 def index():
     if "user_id" in session:
         if session.get("role") == "librarian":
