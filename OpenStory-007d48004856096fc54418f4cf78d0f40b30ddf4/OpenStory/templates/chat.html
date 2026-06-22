@@ -1,61 +1,61 @@
-{% extends "base.html %"}
+{% extends "base.html" %}
 {% block title %}Ask a Librarian{% endblock %}
 {% block content %}
 <div class="page-header">
   <h1>Ask Librarian</h1>
-  <p>Get expert help from our librarians</p>  
+  <p>Get expert help from our librarians</p>
 </div>
 
 <div class="chat-container">
   <div class="chat-header">
     <div>
       <h3>Library Support</h3>
-      <p>We typically respond within 5 minutes</p>  
+      <p>We typically respond within 5 minutes</p>
     </div>
-    <span class="bage bage-online">● Online</span>
+    <span class="badge badge-online">● Online</span>
   </div>
 
   <div class="chat-body" id="chat-body">
     {% if messages %}
       {% set first = messages[0] %}
-      <div class="chat-timestamp">Chart started {{ first.sent_at[:10] }}</div>
+      <div class="chat-timestamp">Chat started {{ first.sent_at[:10] }}</div>
       {% for msg in messages %}
         {% if msg.sender_role == 'librarian' %}
         <div class="chat-msg">
           <div class="chat-avatar" style="background:#8E44AD">V</div>
           <div>
-            <div class="chat-sender">Librarian &nbsp;<small class="chat-time">{{ msg.send_at[11:16] }}</small></div>
-            <div class="chat-bubble">{{ msg.massage }}</div>
-          </div>  
+            <div class="chat-sender">Librarian &nbsp;<small class="chat-time">{{ msg.sent_at[11:16] }}</small></div>
+            <div class="chat-bubble">{{ msg.message }}</div>
+          </div>
         </div>
         {% else %}
         <div class="chat-msg mine">
-          <div class="chat-avatar">{{ user.username[0]upper }}</div>  
+          <div class="chat-avatar">{{ user.username[0]|upper }}</div>
+          <div>
+            <div class="chat-sender" style="text-align:right"><small class="chat-time">{{ msg.sent_at[11:16] }}</small> &nbsp;You</div>
+            <div class="chat-bubble">{{ msg.message }}</div>
+          </div>
         </div>
-        <div class="chat-sender" style="text-align:right"><small class="chat-time">{{ msg.sent_at[11:16] }}</small> &nbsp;You</div>
-        <div class="chat-bubble">{{ msg.message}}</div>
-     </div>
-  </div>
-  {% endif %}
-  {% endfor %}
-  {% else %}
-    <div style="text-align:center;color:var(--text-muted);padding:32px;font-size:13px">
-      Start a conversation with a libraraian below.  
-    </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <div style="text-align:center;color:var(--text-muted);padding:32px;font-size:13px">
+        Start a conversation with a librarian below.
+      </div>
     {% endif %}
-  </div> 
+  </div>
 
   <div class="chat-footer">
-    <form method="POST" action="{{ url_for('chat_sent') }}" style="display:flex;gap:8px;width:100%">
+    <form method="POST" action="{{ url_for('chat_send') }}" style="display:flex;gap:8px;width:100%">
       <input class="form-control" type="text" name="message" placeholder="Type a message..." autofocus required>
-      <button type="submit class"btn btn-primary>➤</button>  
+      <button type="submit" class="btn btn-primary">➤</button>
     </form>
   </div>
 </div>
 
 <script>
-  //scroll to bottom of chat
+  // Scroll to bottom of chat
   const cb = document.getElementById('chat-body');
-  if(cb) cb.scrollTop =cb.scrollHeight;  
+  if(cb) cb.scrollTop = cb.scrollHeight;
 </script>
 {% endblock %}

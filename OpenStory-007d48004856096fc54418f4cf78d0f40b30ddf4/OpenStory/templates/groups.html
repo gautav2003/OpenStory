@@ -5,30 +5,30 @@
   <div>
     <h1>Study Groups</h1>
     <p>Collaborate with other library members</p>
-  </div> 
+  </div>
   <button class="btn btn-primary" onclick="document.getElementById('create-modal').style.display='flex'">
     + New Group
-  </button> 
+  </button>
 </div>
 
 {% if user_groups %}
 <div class="card" style="margin-bottom:20px">
   <h3 style="font-size:15px;margin-bottom:14px">Your Groups</h3>
-  <div class="resources-grid">
+  <div class="resource-grid">
     {% for g in user_groups %}
-    <a href="{{ url_for('group_detail', group_id-g.id) }}" style="text-decoration:none">
+    <a href="{{ url_for('group_detail', group_id=g.id) }}" style="text-decoration:none">
       <div class="resource-card" style="cursor:pointer;border-color:var(--primary)">
         <div style="font-size:32px;text-align:center;padding:8px 0">👥</div>
         <div class="rc-title">{{ g.name }}</div>
-        <div class="rc-author">{{ g.description or 'no description' }}</div>
+        <div class="rc-author">{{ g.description or 'No description' }}</div>
         <div class="rc-footer">
-          <span style="font-size:12px;color:var(--text-muted)">{{ g.member_count }}</span>
-          <span class="badge badge-online">●</span>  
+          <span style="font-size:12px;color:var(--text-muted)">{{ g.member_count }} members</span>
+          <span class="badge badge-online">● Active</span>
         </div>
       </div>
     </a>
     {% endfor %}
-  </div>  
+  </div>
 </div>
 {% endif %}
 
@@ -37,36 +37,37 @@
   <h3 style="font-size:15px;margin-bottom:14px">Discover Groups</h3>
   <div class="resource-grid">
     {% for g in all_groups %}
-    <a href="{{ url_for('group_detail', group_id) }}" style="text-decoration:none">
-      <div style="font-size:32px;text-align:center;padding:8px 0">👥</div> 
-      <div class="rc-title">{{ g.name }}</div>
-      <div class="rc-author">{{ g.descripton or 'No description' }}</div>
-      <div class="rc-footer">
-        <span style="font-size:12px;color:var(--text-muted)">{{ g.member_count }} members</span>
-        <span class="btn btn-primary btn-sm">Join</span>
+    <a href="{{ url_for('group_detail', group_id=g.id) }}" style="text-decoration:none">
+      <div class="resource-card" style="cursor:pointer">
+        <div style="font-size:32px;text-align:center;padding:8px 0">👥</div>
+        <div class="rc-title">{{ g.name }}</div>
+        <div class="rc-author">{{ g.description or 'No description' }}</div>
+        <div class="rc-footer">
+          <span style="font-size:12px;color:var(--text-muted)">{{ g.member_count }} members</span>
+          <span class="btn btn-primary btn-sm">Join</span>
+        </div>
       </div>
-    </div> 
     </a>
     {% endfor %}
-  </div>  
+  </div>
 </div>
 {% endif %}
 
-{% if not uer_groups and not all_groups %}
+{% if not user_groups and not all_groups %}
 <div class="card" style="text-align:center;padding:48px;color:var(--text-muted)">
-  <div style="font-size:48px;margin-bottom:12px">👥</div>  
+  <div style="font-size:48px;margin-bottom:12px">👥</div>
   <p>No study groups yet. Create the first one!</p>
 </div>
 {% endif %}
 
-<!--Create Group Modal-->
+<!-- Create Group Modal -->
 <div id="create-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center">
   <div class="card" style="max-width:440px;width:100%;padding:28px">
     <h3 style="margin-bottom:16px">Create Study Group</h3>
     <form method="POST" action="{{ url_for('create_group') }}">
       <div class="form-group">
         <label>Group Name</label>
-        <input class="form-control" type="text" name="name" placeholder="e.g. CS Study Group" required> 
+        <input class="form-control" type="text" name="name" placeholder="e.g. CS Study Group" required>
       </div>
       <div class="form-group">
         <label>Description</label>
@@ -74,9 +75,9 @@
       </div>
       <div style="display:flex;gap:10px">
         <button type="submit" class="btn btn-primary">Create</button>
-        <button type="button" class="btn btn-outline" onclick="document.getElementById('create-modal').style.display='none'"> Cancel</button>
-      </div> 
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('create-modal').style.display='none'">Cancel</button>
+      </div>
     </form>
-  </div>  
+  </div>
 </div>
 {% endblock %}

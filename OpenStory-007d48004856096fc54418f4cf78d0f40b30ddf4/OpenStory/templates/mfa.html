@@ -14,14 +14,16 @@
 
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% for cat, msg in messages %}
-          <div class="flash flash-{{ cat }}" style="margin-bottom: 12px">{{ msg }}</div>
+          <div class="flash flash-{{ cat }}" style="margin-bottom:12px">{{ msg }}</div>
         {% endfor %}
       {% endwith %}
 
       <div style="text-align:center;padding:12px 0">
-        <p style="font-size:14px;color:var(--text-muted);margin-bottom: 6px">
-            Verification Code Sent To
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:6px">
+          Verification Code Sent To
         </p>
+        <strong>{{ masked_email }}</strong>
+        <p style="margin-top:16px;font-size:13px">Please enter the 4 digit code</p>
       </div>
 
       <form method="POST" action="{{ url_for('mfa_verify') }}">

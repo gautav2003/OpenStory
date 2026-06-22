@@ -2,7 +2,7 @@
 {% block title %}Librarian Dashboard{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>Dashboard Overview</h1>  
+  <h1>Dashboard Overview</h1>
 </div>
 
 <div class="stats-grid">
@@ -23,7 +23,7 @@
   </div>
   <div class="stat-card">
     <span class="stat-icon">⏰</span>
-    <div class="stat-number">{{ stats.ouerdue_items }}</div>
+    <div class="stat-number">{{ stats.overdue_items }}</div>
     <div class="stat-label">Overdue Items</div>
   </div>
   <div class="stat-card">
@@ -31,7 +31,7 @@
     <div class="stat-number">{{ stats.pending_chats }}</div>
     <div class="stat-label">Pending Chats</div>
     <div class="stat-action">
-      <a href="{{ url_for('librarian_chat') }}" class="btn btn-outline btn-sm">Respond Now</a>  
+      <a href="{{ url_for('librarian_chat') }}" class="btn btn-outline btn-sm">Respond Now</a>
     </div>
   </div>
   <div class="stat-card">
@@ -39,15 +39,15 @@
     <div class="stat-number">{{ stats.study_groups }}</div>
     <div class="stat-label">Study Groups</div>
     <div class="stat-action">
-      <a href="{{ url_for('groups') }}"class="btn  btn-outline btn-sm">Manage Groups</a>  
+      <a href="{{ url_for('groups') }}" class="btn btn-outline btn-sm">Manage Groups</a>
     </div>
   </div>
   <div class="stat-card">
     <span class="stat-icon">💵</span>
-    <div class="stat-number">${{ "%.2f"|format(stat.outstanding_fines) }}</div>
+    <div class="stat-number">${{ "%.2f"|format(stats.outstanding_fines) }}</div>
     <div class="stat-label">Outstanding Fines</div>
     <div class="stat-action">
-      <a href="{{ url_for('librarian_brrowers') }}" class="btn btn-outline btn-sm">View Details</a>  
+      <a href="{{ url_for('librarian_borrowers') }}" class="btn btn-outline btn-sm">View Details</a>
     </div>
   </div>
 </div>
@@ -62,7 +62,7 @@
         <th>Borrow Date</th>
         <th>Due Date</th>
         <th>Status</th>
-      </tr>  
+      </tr>
     </thead>
     <tbody>
       {% for b in recent_borrowings %}
@@ -71,10 +71,10 @@
         <td>{{ b.title }}</td>
         <td>{{ b.borrow_date }}</td>
         <td>{{ b.due_date }}</td>
-        <td><span class="badge badge-{{ b.status }}">{{ b.status }}</span></td> 
+        <td><span class="badge badge-{{ b.status }}">{{ b.status }}</span></td>
       </tr>
-      {% endfor %}  
+      {% endfor %}
     </tbody>
-  </table>  
+  </table>
 </div>
 {% endblock %}

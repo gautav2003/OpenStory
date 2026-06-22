@@ -4,11 +4,11 @@
 <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start">
   <div>
     <h1>Catalogue Management</h1>
-    <p>Add, endit and manage Library resources</p>
+    <p>Add, edit and manage library resources</p>
   </div>
   <button class="btn btn-primary" onclick="document.getElementById('add-modal').style.display='flex'">
     + Add New Resource
-  </button>  
+  </button>
 </div>
 
 <div class="stats-grid" style="margin-bottom:20px">
@@ -29,24 +29,24 @@
   </div>
   <div class="stat-card">
     <span class="stat-icon">📰</span>
-    <div class="stat-number">{{ stats.Journals}}</div>
+    <div class="stat-number">{{ stats.journals }}</div>
     <div class="stat-label">Journals</div>
   </div>
 </div>
 
 <div class="card" style="margin-bottom:16px">
   <form method="GET" action="{{ url_for('librarian_catalogue') }}" class="search-bar">
-    <input class="form-control" type="text" name="q" value="{{ q }}" placeholder="🔍 Search resources by title, author, ISBN">
+    <input class="form-control" type="text" name="q" value="{{ q }}" placeholder="🔍  Search resources by title, author, ISBN">
     <select class="form-control" name="type" style="max-width:150px">
       <option value="">All Types</option>
       <option value="book"      {% if rtype=='book' %}selected{% endif %}>Books</option>
       <option value="ebook"     {% if rtype=='ebook' %}selected{% endif %}>eBooks</option>
       <option value="audiobook" {% if rtype=='audiobook' %}selected{% endif %}>Audiobooks</option>
-      <option value="journal"   {% if rtype=='journal '%}selected{% endif %}>Journals</option>
+      <option value="journal"   {% if rtype=='journal' %}selected{% endif %}>Journals</option>
     </select>
     <select class="form-control" name="status" style="max-width:150px">
       <option value="">All Status</option>
-      <option value="available" {% if status=='available' %}selected{% endif %}>Available</option>
+      <option value="available"   {% if status=='available' %}selected{% endif %}>Available</option>
       <option value="unavailable" {% if status=='unavailable' %}selected{% endif %}>On Loan</option>
     </select>
     <button type="submit" class="btn btn-primary">Search</button>
@@ -64,7 +64,7 @@
         <th>Total Copies</th>
         <th>Available</th>
         <th>Actions</th>
-      </tr>  
+      </tr>
     </thead>
     <tbody>
       {% for r in resources %}
@@ -78,27 +78,27 @@
         <td>
           <form method="POST" action="{{ url_for('delete_resource', resource_id=r.id) }}"
                 onsubmit="return confirm('Delete {{ r.title }}?')" style="display:inline">
-            <button type="submit class"btn btn-danger btn-sm>🗑</button>
-          </form>  
+            <button type="submit" class="btn btn-danger btn-sm">🗑</button>
+          </form>
         </td>
       </tr>
-      {% endfor %}  
+      {% endfor %}
     </tbody>
   </table>
 </div>
 
-<!--Upload Section-->
+<!-- Upload section -->
 <div class="card" style="margin-top:16px;text-align:center;padding:28px;border-style:dashed">
   <div style="font-size:28px;margin-bottom:8px">⬆️</div>
   <strong>Upload Digital Resources</strong>
-  <p style="color:var(--text-muted);font-size:13px;margin:6px 0 14px">Upload PDF eBooks, audiobook files, or joural documents</p>
+  <p style="color:var(--text-muted);font-size:13px;margin:6px 0 14px">Upload PDF eBooks, audiobook files, or journal documents</p>
   <label class="btn btn-outline">
     Select Files to Upload
-    <input type="file" style="display:none" accept="pdf,.epub,.mp3">
-  </label>  
+    <input type="file" style="display:none" accept=".pdf,.epub,.mp3">
+  </label>
 </div>
 
-<!--Add Resource Modal-->
+<!-- Add Resource Modal -->
 <div id="add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center">
   <div class="card" style="max-width:500px;width:100%;padding:28px">
     <h3 style="margin-bottom:16px">Add New Resource</h3>
@@ -106,17 +106,17 @@
       <div class="form-row">
         <div class="form-group">
           <label>Title *</label>
-          <input class="form-control" type="text" name="title" required>  
+          <input class="form-control" type="text" name="title" required>
         </div>
         <div class="form-group">
           <label>Author *</label>
-          <input class="form-control" type="text" name="author" required>  
+          <input class="form-control" type="text" name="author" required>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label>ISBN</label>
-          <input class="form-control" type="text" name="isbn" placeholder="N/A if not applicable">  
+          <input class="form-control" type="text" name="isbn" placeholder="N/A if not applicable">
         </div>
         <div class="form-group">
           <label>Type</label>
@@ -125,7 +125,7 @@
             <option value="ebook">eBook</option>
             <option value="audiobook">Audiobook</option>
             <option value="journal">Journal</option>
-          </select>  
+          </select>
         </div>
       </div>
       <div class="form-group">
@@ -137,6 +137,6 @@
         <button type="button" class="btn btn-outline" onclick="document.getElementById('add-modal').style.display='none'">Cancel</button>
       </div>
     </form>
-  </div>  
+  </div>
 </div>
 {% endblock %}
